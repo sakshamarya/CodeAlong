@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeAlong</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+
+        /* cutomised scrollbar  */
+
+        /* width */
+        ::-webkit-scrollbar {
+          width: 10px;
+        }
+        
+        /* Track */
+        ::-webkit-scrollbar-track {
+          background: #f1f1f1; 
+        }
+         
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+          background: #888; 
+        }
+        
+        /* Handle on hover */
+        ::-webkit-scrollbar-thumb:hover {
+          background: #555; 
+        }
+        </style>
+
+    <!-- codemirror -->
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <script src="codemirror/lib/codemirror.js"></script>
+    <script src="codemirror/mode/clike/clike.js"></script>
+    <link rel="stylesheet" href="codemirror/theme/dracula.css">
+    <script src="codemirror/addon/edit/closebrackets.js"></script>
+
+    </head>
+<body>
+
+    <!-- <div class="navBar"> -->
+        <nav class="navBar">
+    
+            <div class="navLeft">
+                <a href="#">Code<span style="color: white;">Along</span></a>
+                <button class="navWhiteBoard" >Open Canvas Board</button>
+            </div>
+
+            <div class="navRight">
+    
+                <button class="navLanguage">C++</button>
+                <button class="navReset">Reset</button>
+                <button class="navRun">Run</button>
+        </div>
+    
+        </nav>
+    <!-- </div> -->
+
+
+    
+
+    <div class="modal" id="modal">
+
+        <div class="modal-body">
+            <div class="canvasBtn"><button id="pen">Pen</button><button id="eraser">Erase</button></div>
+            <canvas id="canvas"></canvas>
+
+        </div>
+
+    </div>
+
+
+    <div class="mainWindow">
+
+        <div class="codeText" id="editorCode">
+            
+            <textarea id="editor" onkeyup="changeEditor()"></textarea>
+
+
+        </div>
+
+        <div class="outputWindow">
+
+            <div class="customInput">
+
+                <textarea placeholder="Custom Input" id="custInp"></textarea>
+
+            </div>
+
+            <div class="output">
+                
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- <script src="editor.js"></script> -->
+    <!-- Cant use require function in compiler.js, so had to install browserify module to create a new js file and it supports require -->
+    <script src="browserify_compiler.js"></script>
+
+    <!-- bootstrap script -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+
+    <!-- canvas script -->
+    <script src="canvas.js"></script>
+
+    <!-- socket -->
+    <script src="/socket.io/socket.io.js"></script>
+
+    <script>
+        // client side server
+
+        var socket = io();
+
+        // setting editor (Theme, default text)
+
+        var editor=CodeMirror.fromTextArea(document.getElementById('editor'),{
+            mode: "clike",
+            theme: 'dracula',
+            lineNumbers: true,
+            autoCloseBrackets: true,
+
+        });
+
+var defaultCode = `#include<bits/stdc++.h>
+using namespace std;
+
+int main()
+{
+  return 0;
+}
+`
+
+        let resetBtn = document.querySelector('.navReset');
+
+        editor.setValue(defaultCode);
+
+        // setting edito's size
+        editor.setSize("100%","100%");
+
+        resetBtn.addEventListener('click',()=>{
+            editor.setValue(defaultCode);
+        });
+
+
+        // implementing socket changes
+
+
+        // detecting changes in text in text editor
+        
+        let text;
+        var origText=editor.getValue();
+        editor.on('change', async (editor) => {
+
+            text = editor.getValue()
+            console.log(text);
+            socket.emit('newText',text);
+            
+        });
+
+        // let textAreaCode=document.getElementById('editor');
+
+        // textAreaCode.addEventListener('input',()=>{
+        //     console.log("text area code value:" + textAreaCode.value);
+        // });
+
+
+
+        socket.on('newText',(text)=>{
+            
+            // update the editor only when the original text is different from the new text, otherwise, it will stuck in the loop due to change in client and server simultaneously
+
+            if(text!=origText)
+            {
+                // on editor.setValue() the cursor position becomes top left, so we have to store its position as well so that we can write in a single line.
+                let currCursorPos=editor.getCursor();
+                
+                editor.setValue(text);
+                editor.setCursor({line: currCursorPos.line, ch: currCursorPos.ch})
+                origText=text;
+            }
+        });
+
+        // detecting changes in custom input field
+
+        let origCustInp = document.getElementById('custInp').value;
+
+
+        let customInputField = document.getElementById('custInp');
+
+        customInputField.addEventListener('input',async ()=>{
+
+            let customInputText = document.getElementById('custInp').value;
+            console.log(customInputText);
+
+                socket.emit('newCustInp',customInputText);
+                origCustInp=customInputText;
+        });
+
+        socket.on('newCustInp',(customInputText)=>{
+            console.log('Changing custom input field');
+            document.getElementById('custInp').innerHTML=customInputText;
+        });
+        
+        // updating output text field
+
+        let runBtn=document.querySelector('.navRun');
+
+        runBtn.addEventListener('click',()=>{
+
+            // wait for 5 second to get the output
+
+            console.log("waiting for 7 seconds");
+
+            setTimeout(function(){
+
+                let outputText = document.getElementsByClassName('output')[0].childNodes[0].textContent;
+                socket.emit('newOutput',outputText);
+                
+                console.log("7 seconds complete");
+            },7000);
+            
+            
+
+        })
+
+        socket.on('newOutput',(outputText)=>{
+
+            console.log("changing output to "+ outputText);
+            document.querySelector('.output').innerHTML=outputText;
+        })
+
+    </script>
+
+
+</body>
+</html>

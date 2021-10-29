@@ -1,0 +1,21 @@
+{
+  "name": "codealong",
+  "version": "1.0.0",
+  "description": "This is a collaborative code editor.",
+  "main": "compiler.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Saksham Arya",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.23.0",
+    "cors": "^2.8.5",
+    "cors-anywhere": "^0.4.4",
+    "express": "^4.17.1",
+    "nodemon": "^2.0.14",
+    "require": "^2.4.20",
+    "socket-io": "^1.0.0",
+    "socket.io": "^4.3.1"
+  }
+}

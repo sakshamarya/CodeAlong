@@ -1,0 +1,8 @@
+compiler cors proxy
+multiple key input
+initialize editor on new user joining
+
+canvas frontend
+canvas slow
+canvas eraser
+cursor tip writing
