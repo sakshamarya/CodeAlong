@@ -19,12 +19,10 @@ runBtn.addEventListener('click',()=>{
         "language":"cpp",
         "input":input
         });
-
-        // url: 'https://cors-anywhere.herokuapp.com/https://codexweb.netlify.app/.netlify/functions/enforceCode/',
     
     var config = {
       method: 'post',
-      url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode/',
+      url: 'https://cors-anywhere.herokuapp.com/https://codexweb.netlify.app/.netlify/functions/enforceCode/',
       headers: { 
         'Content-Type': 'application/json'
       },
