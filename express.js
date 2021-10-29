@@ -69,6 +69,10 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('newOutput',outputText);
     });
 
+    socket.on('resetBtnPressed',()=>{
+        socket.broadcast.emit('resetBtnPressed');
+    })
+
     // Canvas Board
 
     // for changing the mouse position on click
