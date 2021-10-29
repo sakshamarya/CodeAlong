@@ -147,7 +147,7 @@ int main()
 
         resetBtn.addEventListener('click',()=>{
             editor.setValue(defaultCode);
-            
+
             // reseting everyone's editor on server
             socket.emit('resetBtnPressed',()=>{});
         });
@@ -221,17 +221,17 @@ int main()
 
         runBtn.addEventListener('click',()=>{
 
-            // wait for 5 second to get the output
+            // wait for 10 second to get the output
 
-            console.log("waiting for 7 seconds");
+            console.log("waiting for 10 seconds");
 
             setTimeout(function(){
 
                 let outputText = document.getElementsByClassName('output')[0].childNodes[0].textContent;
                 socket.emit('newOutput',outputText);
                 
-                console.log("7 seconds complete");
-            },7000);
+                console.log("10 seconds complete");
+            },10000);
             
             
 
