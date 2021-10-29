@@ -47,23 +47,21 @@
     </head>
 <body>
 
-    <!-- <div class="navBar"> -->
-        <nav class="navBar">
-    
-            <div class="navLeft">
-                <a href="#">Code<span style="color: white;">Along</span></a>
-                <button class="navWhiteBoard" >Open Canvas Board</button>
-            </div>
+    <nav class="navBar">
 
-            <div class="navRight">
-    
-                <button class="navLanguage">C++</button>
-                <button class="navReset">Reset</button>
-                <button class="navRun">Run</button>
+        <div class="navLeft">
+            <a href="#">Code<span style="color: white;">Along</span></a>
+            <button class="navWhiteBoard" >Open Canvas Board</button>
         </div>
-    
-        </nav>
-    <!-- </div> -->
+
+        <div class="navRight">
+
+            <button class="navLanguage">C++</button>
+            <button class="navReset">Reset</button>
+            <button class="navRun">Run</button>
+    </div>
+
+    </nav>
 
 
     
@@ -83,7 +81,7 @@
 
         <div class="codeText" id="editorCode">
             
-            <textarea id="editor" onkeyup="changeEditor()"></textarea>
+            <textarea id="editor"></textarea>
 
 
         </div>
@@ -103,8 +101,7 @@
         </div>
 
     </div>
-
-    <!-- <script src="editor.js"></script> -->
+    
     <!-- Cant use require function in compiler.js, so had to install browserify module to create a new js file and it supports require -->
     <script src="browserify_compiler.js"></script>
 
@@ -160,19 +157,18 @@ int main()
         
         let text;
         var origText=editor.getValue();
-        editor.on('change', async (editor) => {
+        let origLen = origText.length;
+
+        // used on keyup because when I was using 'change' event and pressing multiple keys at a time, it was stucking in the loop.
+
+        editor.on('keyup', async (editor) => {
 
             text = editor.getValue()
-            console.log(text);
+            console.log("Editor Text changed");
+            origLen=text.length;
             socket.emit('newText',text);
             
         });
-
-        // let textAreaCode=document.getElementById('editor');
-
-        // textAreaCode.addEventListener('input',()=>{
-        //     console.log("text area code value:" + textAreaCode.value);
-        // });
 
 
 
@@ -184,7 +180,7 @@ int main()
             {
                 // on editor.setValue() the cursor position becomes top left, so we have to store its position as well so that we can write in a single line.
                 let currCursorPos=editor.getCursor();
-                
+                console.log("Editor Text changed");
                 editor.setValue(text);
                 editor.setCursor({line: currCursorPos.line, ch: currCursorPos.ch})
                 origText=text;
@@ -198,7 +194,7 @@ int main()
 
         let customInputField = document.getElementById('custInp');
 
-        customInputField.addEventListener('input',async ()=>{
+        customInputField.addEventListener('keyup',async ()=>{
 
             let customInputText = document.getElementById('custInp').value;
             console.log(customInputText);

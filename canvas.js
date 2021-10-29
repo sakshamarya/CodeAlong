@@ -17,20 +17,14 @@ window.onclick = function(event){
     }
 };
 
-function elementScaleWidth(e) {
-    return e.offsetWidth === 0 ? 0 : (e.width / e.offsetWidth);
-}
-function elementScaleHeight(e) {
-    return e.offsetHeight === 0 ? 0 : (e.height / e.offsetHeight);
-}
 
 canvas.width=0.87*window.innerWidth;
 canvas.height=0.8*window.innerHeight;
 
 
 
-console.log(canvas.width+ " " + canvas.offsetWidth + " => " );
-console.log(canvas.height+ " " + canvas.offsetHeight + " => " );
+// console.log(canvas.width+ " " + canvas.offsetWidth + " => " );
+// console.log(canvas.height+ " " + canvas.offsetHeight + " => " );
 let ctx = canvas.getContext("2d");
 
 let x;
