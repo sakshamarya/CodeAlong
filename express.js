@@ -6,6 +6,10 @@ const server = http.createServer(app);
 const {Server} = require("socket.io");
 const io = new Server(server);
 
+// for compiler codex API
+const axios = require('axios');
+
+app.use(cors());
 
 app.use(
     cors({
@@ -14,6 +18,36 @@ app.use(
     })
 )
 
+// Compiler API fetching from client
+app.use(express.json());
+
+app.post('/compileAPI',(req,res)=>{
+    
+    var data = JSON.stringify({
+        "code": req.body.text,
+        "language":"cpp",
+        "input": req.body.userInput,
+        });
+    
+    var config = {
+    method: 'post',
+    url: 'https://codexweb.netlify.app/.netlify/functions/enforceCode/',
+    headers: { 
+        'Content-Type': 'application/json'
+    },
+    data : data
+    };
+
+    
+    axios(config)
+    .then(function (response) {
+        res.json(response.data);
+    })
+    .catch(function (error) { 
+        console.log(error);
+    });
+
+});
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname + '/index.html');

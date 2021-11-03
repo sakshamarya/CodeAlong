@@ -101,9 +101,7 @@
         </div>
 
     </div>
-    
-    <!-- Cant use require function in compiler.js, so had to install browserify module to create a new js file and it supports require -->
-    <script src="browserify_compiler.js"></script>
+
 
     <!-- bootstrap script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
@@ -219,23 +217,38 @@ int main()
 
         let runBtn=document.querySelector('.navRun');
 
-        runBtn.addEventListener('click',()=>{
 
-            // wait for 10 second to get the output
-
-            console.log("waiting for 10 seconds");
-
-            setTimeout(function(){
-
-                let outputText = document.getElementsByClassName('output')[0].childNodes[0].textContent;
-                socket.emit('newOutput',outputText);
-                
-                console.log("10 seconds complete");
-            },10000);
-            
+        runBtn.addEventListener('click',async ()=>{
+            let text = editor.getValue();
+            let userInput = document.getElementById('custInp').value;
             
 
-        })
+            let data = {text, userInput};
+
+            const options ={
+                method: 'POST',
+                headers:{
+                    'Content-Type':'application/json',
+                },
+                body: JSON.stringify(data), 
+            }
+
+
+            const responseOutput = await fetch('/compileAPI',options)
+                .then(async response=>{
+                    const resJSON = await response.json();
+                    let outputText=resJSON.output;
+
+                    // Setting output at client side
+                    document.getElementsByClassName('output')[0].innerHTML = outputText;
+                    
+                    socket.emit('newOutput',outputText);
+
+                })
+                .catch((error)=>{
+                    console.error('Error:', error);
+                });
+        });
 
         socket.on('newOutput',(outputText)=>{
 

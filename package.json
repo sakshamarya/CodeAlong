@@ -13,6 +13,7 @@
     "cors": "^2.8.5",
     "cors-anywhere": "^0.4.4",
     "express": "^4.17.1",
+    "node-fetch": "^3.0.0",
     "nodemon": "^2.0.14",
     "require": "^2.4.20",
     "socket-io": "^1.0.0",
