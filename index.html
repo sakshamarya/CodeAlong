@@ -56,7 +56,21 @@
 
         <div class="navRight">
 
-            <button class="navLanguage">C++</button>
+            <button class="btn btn-secondary dropdown-toggle navLanguage" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+                cpp
+              </button>
+              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
+                <li><button class="dropdown-item" id="C++" type="button" onclick="setLanguage('cpp')">C++</button></li>
+                <li><button class="dropdown-item" id="C" type="button" onclick="setLanguage('c')">C</button></li>
+                <li><button class="dropdown-item" id="C#" type="button" onclick="setLanguage('cs')">C#</button></li>
+                <li><button class="dropdown-item" id="Java" type="button" onclick="setLanguage('java')">Java</button></li>
+                <li><button class="dropdown-item" id="Python" type="button" onclick="setLanguage('py')">Python</button></li>
+                <li><button class="dropdown-item" id="Ruby" type="button" onclick="setLanguage('rb')">Ruby</button></li>
+                <li><button class="dropdown-item" id="Kotlin" type="button" onclick="setLanguage('kt')">Kotlin</button></li>
+                <li><button class="dropdown-item" id="Swift" type="button" onclick="setLanguage('swift')">Swift</button></li>
+              </ul>
+
+
             <button class="navReset">Reset</button>
             <button class="navRun">Run</button>
     </div>
@@ -105,9 +119,9 @@
 
     <!-- bootstrap script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-
+    
     <!-- canvas script -->
-    <script src="canvas.js"></script>
+    <script src="/canvas.js"></script>
 
     <!-- socket -->
     <script src="/socket.io/socket.io.js"></script>
@@ -145,6 +159,7 @@ int main()
 
         resetBtn.addEventListener('click',()=>{
             editor.setValue(defaultCode);
+            document.getElementsByClassName('output')[0].innerHTML = '';
 
             // reseting everyone's editor on server
             socket.emit('resetBtnPressed',()=>{});
@@ -152,6 +167,7 @@ int main()
 
         socket.on('resetBtnPressed',()=>{
             editor.setValue(defaultCode);
+            document.getElementsByClassName('output')[0].innerHTML = '';
         });
 
 
@@ -217,13 +233,27 @@ int main()
 
         let runBtn=document.querySelector('.navRun');
 
+        let userLanguage ="cpp";
+
+        function setLanguage(languageSelected)
+        {
+            userLanguage = languageSelected;
+            let editorNewCode;
+
+            document.getElementsByClassName('navLanguage')[0].innerHTML=userLanguage;
+            socket.emit('changeNavLang',userLanguage);
+            return;
+        }
+        socket.on('changeNavLang',(userLanguage)=>{
+            document.getElementsByClassName('navLanguage')[0].innerHTML=userLanguage;
+        });
 
         runBtn.addEventListener('click',async ()=>{
             let text = editor.getValue();
             let userInput = document.getElementById('custInp').value;
             
 
-            let data = {text, userInput};
+            let data = {text, userInput, userLanguage};
 
             const options ={
                 method: 'POST',
@@ -238,7 +268,8 @@ int main()
                 .then(async response=>{
                     const resJSON = await response.json();
                     let outputText=resJSON.output;
-
+                    
+                    
                     // Setting output at client side
                     document.getElementsByClassName('output')[0].innerHTML = outputText;
                     

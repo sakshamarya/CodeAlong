@@ -25,7 +25,7 @@ app.post('/compileAPI',(req,res)=>{
     
     var data = JSON.stringify({
         "code": req.body.text,
-        "language":"cpp",
+        "language":req.body.userLanguage,
         "input": req.body.userInput,
         });
     
@@ -48,6 +48,7 @@ app.post('/compileAPI',(req,res)=>{
     });
 
 });
+
 
 app.get('/',(req,res)=>{
     res.sendFile(__dirname + '/index.html');
@@ -107,11 +108,15 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('resetBtnPressed');
     })
 
+    socket.on('changeNavLang',(userLanguage)=>{
+        socket.broadcast.emit('changeNavLang',userLanguage);
+    });
+
     // Canvas Board
 
     // for changing the mouse position on click
-    socket.on('changeMousePositionDown',(x,y,mouseClick)=>{
-        socket.broadcast.emit('changeMousePositionDown',x,y,mouseClick);
+    socket.on('changeMousePositionDown',(mouseClick)=>{
+        socket.broadcast.emit('changeMousePositionDown',mouseClick);
     });
 
     // changing variable value when mouse click is released
@@ -121,8 +126,8 @@ io.on('connection',(socket)=>{
     });
 
     // for drawing on board
-    socket.on('draw',(x,y)=>{
-        socket.broadcast.emit('draw',x,y);
+    socket.on('draw',(x,y,mouseClick,nx,ny)=>{
+        socket.broadcast.emit('draw',x,y,mouseClick,nx,ny);
     });
 
 });
