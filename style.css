@@ -144,19 +144,20 @@ a{
 
 /* canvas board pop up modal */
 
+/* 
 .modal{
-  display: none; /* Hidden by default */
-  position: fixed; /* Stay in place */
-  z-index: 10; /* Sit on top */
+  display: none; 
+  position: fixed; 
+  z-index: 10; 
   left: 0;
   top: 0;
   bottom: 0;
   right: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgb(0,0,0); /* Fallback color */
-  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  width: 100%;
+  height: 100%; 
+  overflow: auto; 
+  background-color: rgb(0,0,0); 
+  background-color: rgba(0,0,0,0.4); 
 }
 
 
@@ -164,37 +165,42 @@ a{
   border-radius: 1rem;
   border: 3px solid #888;
   background-color: white;
-  margin: 3% auto; /* 3% from the top and centered (auto left right) */
+  margin: 3% auto; 
   padding: 20px;
-  width: 90%; /* Could be more or less, depending on screen size */
+  width: 90%; 
   height: 87%;
-}
+} */
 
 #canvas{
-  border:1px solid white;
+  border:1px solid black;
   cursor: pointer;
+  /* height: 100%;
+  width: 100%; */
 }
 
-.canvasBtn{
+/* .canvasBtn{
   position: fixed;
   display: inline;
   width: 20%;
   margin: 1%;
   
-}
+} */
 
 #pen{
-  border-radius: 0.5rem;
+  /* border-radius: 0.5rem;
   font-size: 16px;
   margin-right: 0.5%;
   background-color: green;
-  color: white
+  color: white */
+
+  margin-left: 1%;
 }
 
 #eraser{
-  font-size: 16px;
+  /* font-size: 16px;
   border-radius: 0.5rem;
   margin-left: 0.5%;
   background-color: red;
-    color: white
+    color: white */
+    margin-left: 1%;
 }

@@ -51,8 +51,10 @@
 
         <div class="navLeft">
             <a href="#">Code<span style="color: white;">Along</span></a>
-            <button class="navWhiteBoard" >Open Canvas Board</button>
+            <!-- <button class="navWhiteBoard" >Open Canvas Board</button> -->
+            <button type="button" class="btn btn-primary navWhiteBoard" data-bs-toggle="modal" data-bs-target="#exampleModal">Canvas Board</button>
         </div>
+
 
         <div class="navRight">
 
@@ -78,9 +80,26 @@
     </nav>
 
 
-    
+   <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="align-items: center;">
+            <div class="modal-header" style="width: 100%;">
+            <h5 class="modal-title" id="exampleModalLabel">Canvas Board</h5>
+            <!-- <div class="canvasBtn"><button id="pen">Pen</button><button id="eraser">Erase</button></div> -->
+            <button type="button" id="pen" class="btn btn-primary">Pen</button>
+            <button type="button" id="eraser" class="btn btn-primary">Eraser</button>
+            <!-- <button id="pen">Pen</button><button id="eraser">Erase</button> -->
+            <button type="button" style="float: right;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <canvas id="canvas"></canvas>
+            </div>
+        </div>
+        </div>
+    </div>
 
-    <div class="modal" id="modal">
+    <!-- <div class="modal" id="modal">
 
         <div class="modal-body">
             <div class="canvasBtn"><button id="pen">Pen</button><button id="eraser">Erase</button></div>
@@ -88,7 +107,7 @@
 
         </div>
 
-    </div>
+    </div> -->
 
 
     <div class="mainWindow">
@@ -120,9 +139,6 @@
     <!-- bootstrap script -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
     
-    <!-- canvas script -->
-    <script src="/canvas.js"></script>
-
     <!-- socket -->
     <script src="/socket.io/socket.io.js"></script>
 
@@ -285,9 +301,11 @@ int main()
 
             console.log("changing output to "+ outputText);
             document.querySelector('.output').innerHTML=outputText;
-        })
-
+        });
     </script>
+
+    <!-- canvas script -->
+    <script src="/canvas.js"></script>
 
 
 </body>

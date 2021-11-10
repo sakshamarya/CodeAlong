@@ -130,6 +130,10 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('draw',x,y,mouseClick,nx,ny);
     });
 
+    socket.on('changePenStatus',(ispen)=>{
+        socket.broadcast.emit('draw',ispen);
+    });
+
 });
 
 let PORT = process.env.PORT || 5000;

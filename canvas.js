@@ -1,25 +1,12 @@
-var modal = document.getElementById('modal');
+
 var btn = document.querySelector('.navWhiteBoard');
-var closeBtn = document.querySelector('.close-button');
-var modalBody = document.querySelector('.modal-body');
 let canvas = document.getElementById('canvas');
 
 
-btn.addEventListener('click',()=>{
-    modal.style.display="block";
-    
-});
 
 
-window.onclick = function(event){
-    if(event.target == modal){
-        modal.style.display="none";
-    }
-};
-
-
-canvas.width=0.87*window.innerWidth;
-canvas.height=0.8*window.innerHeight;
+canvas.width=0.978*window.innerWidth;
+canvas.height=0.84*window.innerHeight;
 
 
 
@@ -81,6 +68,10 @@ pen.addEventListener('click',()=>{
 
 eraser.addEventListener('click',()=>{
     ispen=false;
+    socket.emit('changePenStatus',ispen);
+});
+socket.on('changePenStatus',(ispen)=>{
+    ispen=false;
 });
 
 var nx;
@@ -120,37 +111,37 @@ canvas.addEventListener('mousemove',(e)=>{
             
         }
         else{
-            ctx.clearRect(x,y,(parseInt(x)+0.1),(parseInt(y)+0.1));
+            ctx.clearRect(x,y,(x+1),(y+1));
         }
 
     }
 
 
-    socket.on('draw',(x,y,mouseClick,nx,ny)=>{
-
-        console.log(x+', '+y);
-
-        if(x===nx && y===ny)
-        {
-            console.log('repeating..');
-            return;
-        }
-
-        ctx.moveTo(x,y);
-
-        // make line
-        if(ispen)
-        {
-            ctx.lineTo(nx,ny);
-            ctx.stroke();
-            x=nx;
-            y=ny;
-            
-        }
-        else{
-            ctx.clearRect(x,y,(parseInt(x)+0.1),(parseInt(y)+0.1));
-        }
-    });
-
 });
 
+
+socket.on('draw',(x,y,mouseClick,nx,ny)=>{
+
+    console.log(x+', '+y);
+
+    if(x===nx && y===ny)
+    {
+        console.log('repeating..');
+        return;
+    }
+
+    ctx.moveTo(x,y);
+
+    // make line
+    if(ispen)
+    {
+        ctx.lineTo(nx,ny);
+        ctx.stroke();
+        x=nx;
+        y=ny;
+        
+    }
+    else{
+        ctx.clearRect(x,y,(x+1),(y+1));
+    }
+});
