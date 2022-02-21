@@ -41,6 +41,8 @@ app.post('/compileAPI',(req,res)=>{
     
     axios(config)
     .then(function (response) {
+
+        console.log(response.data.output);
         res.json(response.data);
     })
     .catch(function (error) { 
@@ -77,6 +79,15 @@ app.get('/codemirror/lib/codemirror.js',(req,res)=>{
 app.get('/codemirror/mode/clike/clike.js',(req,res)=>{
     res.sendFile(__dirname+'/codemirror/mode/clike/clike.js');
 });
+app.get('/codemirror/mode/python/python.js',(req,res)=>{
+    res.sendFile(__dirname+'/codemirror/mode/python/python.js');
+});
+app.get('/codemirror/mode/ruby/ruby.js',(req,res)=>{
+    res.sendFile(__dirname+'/codemirror/mode/ruby/ruby.js');
+});
+app.get('/codemirror/mode/swift/swift.js',(req,res)=>{
+    res.sendFile(__dirname+'/codemirror/mode/swift/swift.js');
+});
 app.get('/codemirror/theme/dracula.css',(req,res)=>{
     res.sendFile(__dirname+'/codemirror/theme/dracula.css');
 });
@@ -112,6 +123,10 @@ io.on('connection',(socket)=>{
         socket.broadcast.emit('changeNavLang',userLanguage);
     });
 
+    socket.on('runButtonChanges',(runBtn,outputDiv)=>{
+        socket.broadcast.emit('runButtonChanges',runBtn,outputDiv);
+    });
+
     // Canvas Board
 
     // for changing the mouse position on click
@@ -126,12 +141,8 @@ io.on('connection',(socket)=>{
     });
 
     // for drawing on board
-    socket.on('draw',(x,y,mouseClick,nx,ny)=>{
-        socket.broadcast.emit('draw',x,y,mouseClick,nx,ny);
-    });
-
-    socket.on('changePenStatus',(ispen)=>{
-        socket.broadcast.emit('draw',ispen);
+    socket.on('draw',(x,y,mouseClick,nx,ny,ispen)=>{
+        socket.broadcast.emit('draw',x,y,mouseClick,nx,ny,ispen);
     });
 
 });

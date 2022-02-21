@@ -1,102 +1,202 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>CodeAlong</title>
 
     <!-- Bootstrap -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+      crossorigin="anonymous"
+    />
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
 
     <style>
+      /* cutomised scrollbar  */
 
-        /* cutomised scrollbar  */
+      /* width */
+      ::-webkit-scrollbar {
+        width: 10px;
+      }
 
-        /* width */
-        ::-webkit-scrollbar {
-          width: 10px;
-        }
-        
-        /* Track */
-        ::-webkit-scrollbar-track {
-          background: #f1f1f1; 
-        }
-         
-        /* Handle */
-        ::-webkit-scrollbar-thumb {
-          background: #888; 
-        }
-        
-        /* Handle on hover */
-        ::-webkit-scrollbar-thumb:hover {
-          background: #555; 
-        }
-        </style>
+      /* Track */
+      ::-webkit-scrollbar-track {
+        background: #f1f1f1;
+      }
+
+      /* Handle */
+      ::-webkit-scrollbar-thumb {
+        background: #888;
+      }
+
+      /* Handle on hover */
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+    </style>
 
     <!-- codemirror -->
-    <link rel="stylesheet" href="codemirror/lib/codemirror.css">
+    <link rel="stylesheet" href="codemirror/lib/codemirror.css" />
     <script src="codemirror/lib/codemirror.js"></script>
     <script src="codemirror/mode/clike/clike.js"></script>
-    <link rel="stylesheet" href="codemirror/theme/dracula.css">
+    <script src="codemirror/mode/python/python.js"></script>
+    <script src="codemirror/mode/ruby/ruby.js"></script>
+    <script src="codemirror/mode/swift/swift.js"></script>
+    <link rel="stylesheet" href="codemirror/theme/dracula.css" />
     <script src="codemirror/addon/edit/closebrackets.js"></script>
-
-    </head>
-<body>
-
+  </head>
+  <body>
     <nav class="navBar">
+      <div class="navLeft">
+        <a href="#">Code<span style="color: white">Along</span></a>
+        <!-- <button class="navWhiteBoard" >Open Canvas Board</button> -->
+        <button
+          type="button"
+          class="btn btn-primary navWhiteBoard"
+          data-bs-toggle="modal"
+          data-bs-target="#exampleModal"
+        >
+          Canvas Board
+        </button>
+      </div>
 
-        <div class="navLeft">
-            <a href="#">Code<span style="color: white;">Along</span></a>
-            <!-- <button class="navWhiteBoard" >Open Canvas Board</button> -->
-            <button type="button" class="btn btn-primary navWhiteBoard" data-bs-toggle="modal" data-bs-target="#exampleModal">Canvas Board</button>
-        </div>
+      <div class="navRight">
+        <button
+          class="btn btn-secondary dropdown-toggle navLanguage"
+          type="button"
+          id="dropdownMenuButton2"
+          data-bs-toggle="dropdown"
+          aria-expanded="false"
+        >
+          cpp
+        </button>
+        <ul
+          class="dropdown-menu dropdown-menu-dark"
+          aria-labelledby="dropdownMenuButton2"
+        >
+          <li>
+            <button
+              class="dropdown-item"
+              id="C++"
+              type="button"
+              onclick="setLanguage('cpp')"
+            >
+              C++
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="C"
+              type="button"
+              onclick="setLanguage('c')"
+            >
+              C
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="C#"
+              type="button"
+              onclick="setLanguage('cs')"
+            >
+              C#
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="Java"
+              type="button"
+              onclick="setLanguage('java')"
+            >
+              Java
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="Python"
+              type="button"
+              onclick="setLanguage('py')"
+            >
+              Python
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="Ruby"
+              type="button"
+              onclick="setLanguage('rb')"
+            >
+              Ruby
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="Kotlin"
+              type="button"
+              onclick="setLanguage('kt')"
+            >
+              Kotlin
+            </button>
+          </li>
+          <li>
+            <button
+              class="dropdown-item"
+              id="Swift"
+              type="button"
+              onclick="setLanguage('swift')"
+            >
+              Swift
+            </button>
+          </li>
+        </ul>
 
-
-        <div class="navRight">
-
-            <button class="btn btn-secondary dropdown-toggle navLanguage" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-                cpp
-              </button>
-              <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
-                <li><button class="dropdown-item" id="C++" type="button" onclick="setLanguage('cpp')">C++</button></li>
-                <li><button class="dropdown-item" id="C" type="button" onclick="setLanguage('c')">C</button></li>
-                <li><button class="dropdown-item" id="C#" type="button" onclick="setLanguage('cs')">C#</button></li>
-                <li><button class="dropdown-item" id="Java" type="button" onclick="setLanguage('java')">Java</button></li>
-                <li><button class="dropdown-item" id="Python" type="button" onclick="setLanguage('py')">Python</button></li>
-                <li><button class="dropdown-item" id="Ruby" type="button" onclick="setLanguage('rb')">Ruby</button></li>
-                <li><button class="dropdown-item" id="Kotlin" type="button" onclick="setLanguage('kt')">Kotlin</button></li>
-                <li><button class="dropdown-item" id="Swift" type="button" onclick="setLanguage('swift')">Swift</button></li>
-              </ul>
-
-
-            <button class="navReset">Reset</button>
-            <button class="navRun">Run</button>
-    </div>
-
+        <button class="navReset">Reset</button>
+        <button class="navRun">Run</button>
+      </div>
     </nav>
 
-
-   <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-fullscreen">
-        <div class="modal-content" style="align-items: center;">
-            <div class="modal-header" style="width: 100%;">
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-fullscreen">
+        <div class="modal-content" style="align-items: center">
+          <div class="modal-header" style="width: 100%">
             <h5 class="modal-title" id="exampleModalLabel">Canvas Board</h5>
             <!-- <div class="canvasBtn"><button id="pen">Pen</button><button id="eraser">Erase</button></div> -->
             <button type="button" id="pen" class="btn btn-primary">Pen</button>
-            <button type="button" id="eraser" class="btn btn-primary">Eraser</button>
+            <button type="button" id="eraser" class="btn btn-primary">
+              Eraser
+            </button>
             <!-- <button id="pen">Pen</button><button id="eraser">Erase</button> -->
-            <button type="button" style="float: right;" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <canvas id="canvas"></canvas>
-            </div>
+            <button
+              type="button"
+              style="float: right"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
+          </div>
+          <div class="modal-body">
+            <canvas id="canvas"></canvas>
+          </div>
         </div>
-        </div>
+      </div>
     </div>
 
     <!-- <div class="modal" id="modal">
@@ -109,204 +209,247 @@
 
     </div> -->
 
-
     <div class="mainWindow">
+      <div class="codeText" id="editorCode">
+        <textarea id="editor"></textarea>
+      </div>
 
-        <div class="codeText" id="editorCode">
-            
-            <textarea id="editor"></textarea>
-
-
+      <div class="outputWindow">
+        <div class="customInput">
+          <textarea placeholder="Custom Input" id="custInp"></textarea>
         </div>
 
-        <div class="outputWindow">
-
-            <div class="customInput">
-
-                <textarea placeholder="Custom Input" id="custInp"></textarea>
-
-            </div>
-
-            <div class="output">
-                
-            </div>
-
-        </div>
-
+        <div class="output"></div>
+      </div>
     </div>
 
-
     <!-- bootstrap script -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
-    
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p"
+      crossorigin="anonymous"
+    ></script>
+
     <!-- socket -->
     <script src="/socket.io/socket.io.js"></script>
 
     <script>
-        // client side server
+      // client side server
 
-        var socket = io();
+      var socket = io();
 
-        // setting editor (Theme, default text)
+      // setting editor (Theme, default text)
 
-        var editor=CodeMirror.fromTextArea(document.getElementById('editor'),{
-            mode: "clike",
-            theme: 'dracula',
-            lineNumbers: true,
-            autoCloseBrackets: true,
+      // let selectedLang = document.getElementsByClassName("navLanguage")[0].innerHTML;
+      // console.log(selectedLang);
 
-        });
+      // if(selectedLang == "cpp")
+      // {
+      //     selectedLang = "clike";
+      // }
+      // else if(selectedLang == "py")
+      // {
+      //     selectedLang = "python";
+      // }
+      // else if(selectedLang == "rb")
+      // {
+      //     selectedLang = "ruby";
+      // }
+      // else if(selectedLang == "swift")
+      // {
+      //     selectedLang = "swift";
+      // }
 
-var defaultCode = `#include<bits/stdc++.h>
+      var editor = CodeMirror.fromTextArea(document.getElementById("editor"), {
+        mode: "clike",
+        theme: "dracula",
+        lineNumbers: true,
+        autoCloseBrackets: true,
+      });
+
+      var defaultCode = `#include<bits/stdc++.h>
 using namespace std;
 
 int main()
 {
   return 0;
 }
-`
+`;
 
-        let resetBtn = document.querySelector('.navReset');
+      let resetBtn = document.querySelector(".navReset");
 
+      editor.setValue(defaultCode);
+
+      // setting edito's size
+      editor.setSize("100%", "100%");
+
+      resetBtn.addEventListener("click", () => {
         editor.setValue(defaultCode);
+        document.getElementsByClassName("output")[0].innerHTML = "";
 
-        // setting edito's size
-        editor.setSize("100%","100%");
+        // reseting everyone's editor on server
+        socket.emit("resetBtnPressed", () => {});
+      });
 
-        resetBtn.addEventListener('click',()=>{
-            editor.setValue(defaultCode);
-            document.getElementsByClassName('output')[0].innerHTML = '';
+      socket.on("resetBtnPressed", () => {
+        editor.setValue(defaultCode);
+        document.getElementsByClassName("output")[0].innerHTML = "";
+      });
 
-            // reseting everyone's editor on server
-            socket.emit('resetBtnPressed',()=>{});
-        });
+      // implementing socket changes
 
-        socket.on('resetBtnPressed',()=>{
-            editor.setValue(defaultCode);
-            document.getElementsByClassName('output')[0].innerHTML = '';
-        });
+      // detecting changes in text in text editor
 
+      let text;
+      var origText = editor.getValue();
+      let origLen = origText.length;
 
-        // implementing socket changes
+      // used on keyup because when I was using 'change' event and pressing multiple keys at a time, it was stucking in the loop.
 
+      editor.on("keyup", async (editor) => {
+        text = editor.getValue();
+        console.log("Editor Text changed");
+        origLen = text.length;
+        socket.emit("newText", text);
+      });
 
-        // detecting changes in text in text editor
-        
-        let text;
-        var origText=editor.getValue();
-        let origLen = origText.length;
+      socket.on("newText", (text) => {
+        // update the editor only when the original text is different from the new text, otherwise, it will stuck in the loop due to change in client and server simultaneously
 
-        // used on keyup because when I was using 'change' event and pressing multiple keys at a time, it was stucking in the loop.
-
-        editor.on('keyup', async (editor) => {
-
-            text = editor.getValue()
-            console.log("Editor Text changed");
-            origLen=text.length;
-            socket.emit('newText',text);
-            
-        });
-
-
-
-        socket.on('newText',(text)=>{
-            
-            // update the editor only when the original text is different from the new text, otherwise, it will stuck in the loop due to change in client and server simultaneously
-
-            if(text!=origText)
-            {
-                // on editor.setValue() the cursor position becomes top left, so we have to store its position as well so that we can write in a single line.
-                let currCursorPos=editor.getCursor();
-                console.log("Editor Text changed");
-                editor.setValue(text);
-                editor.setCursor({line: currCursorPos.line, ch: currCursorPos.ch})
-                origText=text;
-            }
-        });
-
-        // detecting changes in custom input field
-
-        let origCustInp = document.getElementById('custInp').value;
-
-
-        let customInputField = document.getElementById('custInp');
-
-        customInputField.addEventListener('keyup',async ()=>{
-
-            let customInputText = document.getElementById('custInp').value;
-            console.log(customInputText);
-
-                socket.emit('newCustInp',customInputText);
-                origCustInp=customInputText;
-        });
-
-        socket.on('newCustInp',(customInputText)=>{
-            console.log('Changing custom input field');
-            document.getElementById('custInp').innerHTML=customInputText;
-        });
-        
-        // updating output text field
-
-        let runBtn=document.querySelector('.navRun');
-
-        let userLanguage ="cpp";
-
-        function setLanguage(languageSelected)
-        {
-            userLanguage = languageSelected;
-            let editorNewCode;
-
-            document.getElementsByClassName('navLanguage')[0].innerHTML=userLanguage;
-            socket.emit('changeNavLang',userLanguage);
-            return;
+        if (text != origText) {
+          // on editor.setValue() the cursor position becomes top left, so we have to store its position as well so that we can write in a single line.
+          let currCursorPos = editor.getCursor();
+          console.log("Editor Text changed");
+          editor.setValue(text);
+          editor.setCursor({ line: currCursorPos.line, ch: currCursorPos.ch });
+          origText = text;
         }
-        socket.on('changeNavLang',(userLanguage)=>{
-            document.getElementsByClassName('navLanguage')[0].innerHTML=userLanguage;
-        });
+      });
 
-        runBtn.addEventListener('click',async ()=>{
-            let text = editor.getValue();
-            let userInput = document.getElementById('custInp').value;
-            
+      // detecting changes in custom input field
 
-            let data = {text, userInput, userLanguage};
+      let origCustInp = document.getElementById("custInp").value;
 
-            const options ={
-                method: 'POST',
-                headers:{
-                    'Content-Type':'application/json',
-                },
-                body: JSON.stringify(data), 
+      let customInputField = document.getElementById("custInp");
+
+      customInputField.addEventListener("keyup", async () => {
+        let customInputText = document.getElementById("custInp").value;
+        console.log(customInputText);
+
+        socket.emit("newCustInp", customInputText);
+        origCustInp = customInputText;
+      });
+
+      socket.on("newCustInp", (customInputText) => {
+        console.log("Changing custom input field");
+        document.getElementById("custInp").innerHTML = customInputText;
+      });
+
+      // updating output text field
+
+      let runBtn = document.querySelector(".navRun");
+
+      let userLanguage = "cpp";
+
+      function setLanguage(languageSelected) {
+        userLanguage = languageSelected;
+        let editorNewCode;
+
+        document.getElementsByClassName("navLanguage")[0].innerHTML =
+          userLanguage;
+        socket.emit("changeNavLang", userLanguage);
+        return;
+      }
+      socket.on("changeNavLang", (userLanguage) => {
+        document.getElementsByClassName("navLanguage")[0].innerHTML =
+          userLanguage;
+      });
+
+      runBtn.addEventListener("click", async () => {
+        let outputDiv = document.getElementsByClassName("output")[0];
+
+        runBtn.style.background = "grey";
+        runBtn.innerText = "Running...";
+        outputDiv.innerHTML = "";
+
+        socket.emit("runButtonChanges");
+
+        let text = editor.getValue();
+        let userInput = document.getElementById("custInp").value;
+
+        let data = { text, userInput, userLanguage };
+
+        const options = {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(data),
+        };
+
+        const responseOutput = await fetch("/compileAPI", options)
+          .then(async (response) => {
+            const resJSON = await response.json();
+            let outputText = resJSON.output;
+
+            console.log("Recieved a text" + outputText);
+
+            const stringArray = outputText.split("\n");
+            console.log(stringArray);
+
+            for (let i = 0; i < stringArray.length; i++) {
+              let childDiv = document.createElement("div");
+              childDiv.innerHTML = stringArray[i];
+              outputDiv.appendChild(childDiv);
+
+              console.log(stringArray[i]);
             }
 
+            runBtn.style.background = "Red";
+            runBtn.innerText = "Run";
 
-            const responseOutput = await fetch('/compileAPI',options)
-                .then(async response=>{
-                    const resJSON = await response.json();
-                    let outputText=resJSON.output;
-                    
-                    
-                    // Setting output at client side
-                    document.getElementsByClassName('output')[0].innerHTML = outputText;
-                    
-                    socket.emit('newOutput',outputText);
+            // Setting output at client side
+            // document.getElementsByClassName("output")[0].innerHTML = outputText;
 
-                })
-                .catch((error)=>{
-                    console.error('Error:', error);
-                });
-        });
+            socket.emit("newOutput", outputText);
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            runBtn.style.background = "Red";
+            runBtn.innerText = "Run";
+          });
+      });
 
-        socket.on('newOutput',(outputText)=>{
+      socket.on("runButtonChanges", () => {
+        let runBtn = document.querySelector(".navRun");
+        runBtn.style.background = "grey";
+        runBtn.innerText = "Running...";
+        document.querySelector(".output").innerHTML = ""; // clear output div
+      });
 
-            console.log("changing output to "+ outputText);
-            document.querySelector('.output').innerHTML=outputText;
-        });
+      socket.on("newOutput", (outputText) => {
+        console.log("changing output to " + outputText);
+
+        let runBtn = document.querySelector(".navRun");
+        runBtn.style.background = "Red";
+        runBtn.innerText = "Run";
+
+        const stringArray = outputText.split("\n");
+        console.log(stringArray);
+
+        let outputDiv = document.getElementsByClassName("output")[0];
+
+        for (let i = 0; i < stringArray.length; i++) {
+          let childDiv = document.createElement("div");
+          childDiv.innerHTML = stringArray[i];
+          outputDiv.appendChild(childDiv);
+
+          console.log(stringArray[i]);
+        }
+      });
     </script>
 
     <!-- canvas script -->
     <script src="/canvas.js"></script>
-
-
-</body>
+  </body>
 </html>

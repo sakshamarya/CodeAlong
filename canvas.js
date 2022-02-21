@@ -68,10 +68,6 @@ pen.addEventListener('click',()=>{
 
 eraser.addEventListener('click',()=>{
     ispen=false;
-    socket.emit('changePenStatus',ispen);
-});
-socket.on('changePenStatus',(ispen)=>{
-    ispen=false;
 });
 
 var nx;
@@ -96,10 +92,7 @@ canvas.addEventListener('mousemove',(e)=>{
         
 
         // when mouse click is true, we have to draw on the server
-        if(x!=nx && y!=ny)
-        {
-            socket.emit('draw',x,y,mouseClick,nx,ny);
-        }
+        socket.emit('draw',x,y,mouseClick,nx,ny,ispen);
 
         // make line
         if(ispen)
@@ -111,7 +104,7 @@ canvas.addEventListener('mousemove',(e)=>{
             
         }
         else{
-            ctx.clearRect(x,y,(x+1),(y+1));
+            ctx.clearRect(nx,ny,(nx+1),(ny+1));
         }
 
     }
@@ -120,15 +113,9 @@ canvas.addEventListener('mousemove',(e)=>{
 });
 
 
-socket.on('draw',(x,y,mouseClick,nx,ny)=>{
+socket.on('draw',(x,y,mouseClick,nx,ny,ispen)=>{
 
     console.log(x+', '+y);
-
-    if(x===nx && y===ny)
-    {
-        console.log('repeating..');
-        return;
-    }
 
     ctx.moveTo(x,y);
 
@@ -142,6 +129,6 @@ socket.on('draw',(x,y,mouseClick,nx,ny)=>{
         
     }
     else{
-        ctx.clearRect(x,y,(x+1),(y+1));
+        ctx.clearRect(nx,ny,(nx+1),(ny+1));
     }
 });
